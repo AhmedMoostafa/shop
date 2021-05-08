@@ -16,7 +16,7 @@ const multer = require("multer");
 
 require("./util/database");
 const store = new MongoDBStore({
-  uri: "mongodb://localhost:27017/shop",
+  uri: process.env.MONGODB_URL,
   collection: "sessions ",
 });
 const csrfPortection = csrf();
