@@ -4,13 +4,13 @@
   "description": "Complete Node.js Guide",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js",
-    "start-server": "node app.js"
+    "dev": "env-cmd ./config/dev.env nodemon app.js",
+    "start": "node app.js"
   },
   "author": "Maximilian Schwarzmüller",
   "license": "ISC",
   "devDependencies": {
+    "env-cmd": "^8.0.2",
     "nodemon": "^1.18.3"
   },
   "dependencies": {

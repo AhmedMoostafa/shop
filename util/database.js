@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
-const url = "mongodb://localhost:27017/shop";
-/*   "mongodb+srv://taskapp:taskapproot@cluster0.ub1nd.mongodb.net/shop?retryWrites=true&w=majority";
- */ mongoose
+const url = process.env.MONGODB_URL;
+mongoose
   .connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -14,4 +13,3 @@ const url = "mongodb://localhost:27017/shop";
   .catch((err) => {
     console.log(err);
   });
-
