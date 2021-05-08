@@ -4,8 +4,8 @@
   "description": "Complete Node.js Guide",
   "main": "app.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "env-cmd ./config/dev.env nodemon src/app.js"
+    "start": "node app.js",
+    "dev": "env-cmd ./config/dev.env nodemon app.js"
   },
   "author": "",
   "license": "ISC",
