@@ -65,11 +65,12 @@ app.use((req, res, next) => {
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
-/* app.use("/500", errorController.get500);
+app.use("/500", errorController.get500);
 
 app.use((err, req, res, next) => {
+  console.log(err);
   res.redirect("/500");
-}); */
+});
 app.use(errorController.get404);
 
 app.listen(3000, async () => {
