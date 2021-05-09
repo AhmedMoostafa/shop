@@ -64,10 +64,8 @@ exports.postLogin = (req, res, next) => {
     });
   }
 
-  console.log(email);
   User.findOne({ email: email })
     .then((user) => {
-      console.log(user);
       if (!user) {
         return res.status(422).render("auth/login", {
           path: "/login",
@@ -87,7 +85,6 @@ exports.postLogin = (req, res, next) => {
             req.session.isLoggedIn = true;
             req.session.user = user;
             return req.session.save((err) => {
-              console.log(err);
               res.redirect("/");
             });
           }
@@ -113,10 +110,8 @@ exports.postLogin = (req, res, next) => {
 exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  console.log(email);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    //  console.log(errors.array());
     return res.status(422).render("auth/signup", {
       path: "/signup",
       pageTitle: "Signup",
@@ -177,11 +172,8 @@ exports.getReset = (req, res, next) => {
 exports.postReset = async (req, res, next) => {
   const token = await crypto.randomBytes(32).toString("hex");
   const email = req.body.email;
-  console.log(email);
   const user = await User.findOne({ email });
   if (!user) {
-    console.log(user);
-
     return next(new Error("not found"));
   }
   user.resetToken = token;
@@ -190,7 +182,7 @@ exports.postReset = async (req, res, next) => {
   mailer.sendEmail(
     email,
     "Passowrd reset",
-    `<a href="http://localhost:3000/reset/${token}">click here</a>`
+    `<a href="https://node-shop-app.herokuapp.com/reset/${token}">click here</a>`
   );
   res.render("auth/reset", {
     path: "/reset",
