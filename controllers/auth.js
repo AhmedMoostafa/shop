@@ -168,7 +168,6 @@ exports.getReset = (req, res, next) => {
     errorMessage: message,
   });
 };
-
 exports.postReset = async (req, res, next) => {
   const token = await crypto.randomBytes(32).toString("hex");
   const email = req.body.email;
@@ -176,6 +175,7 @@ exports.postReset = async (req, res, next) => {
   if (!user) {
     return next(new Error("not found"));
   }
+
   user.resetToken = token;
   user.resetTokenExpiration = Date.now() + convert(60);
   await user.save();
