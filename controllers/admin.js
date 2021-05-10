@@ -15,58 +15,54 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 
-exports.postAddProduct = (req, res, next) => {
-  const title = req.body.title;
-  const image = req.file;
-  const price = req.body.price;
-  const description = req.body.description;
-  const errors = validationResult(req).array();
-  if (!image) {
-    errors.push({
-      location: "file",
-      param: "image",
-      value: image,
-      msg: "Invalid value",
-    });
-  }
-  if (errors.length > 0) {
-    if (image) {
-      deletFile(image.path);
+exports.postAddProduct = async (req, res, next) => {
+  try {
+    const title = req.body.title;
+    const image = req.file;
+    const price = req.body.price;
+    const description = req.body.description;
+    const errors = validationResult(req).array();
+    if (!image) {
+      errors.push({
+        location: "file",
+        param: "image",
+        value: image,
+        msg: "Invalid value",
+      });
     }
-    return res.status(422).render("admin/edit-product", {
-      pageTitle: "Add Product",
-      path: "/admin/add-product",
-      editing: false,
-      hasError: true,
-      product: {
-        title,
-        image,
-        price,
-        description,
-      },
-      errorMessage: errors[0].msg,
-      validationErrors: errors,
+    if (errors.length > 0) {
+      if (image) {
+        deletFile(image.path);
+      }
+      return res.status(422).render("admin/edit-product", {
+        pageTitle: "Add Product",
+        path: "/admin/add-product",
+        editing: false,
+        hasError: true,
+        product: {
+          title,
+          image,
+          price,
+          description,
+        },
+        errorMessage: errors[0].msg,
+        validationErrors: errors,
+      });
+    }
+    const imageUrl = image.path;
+    const product = new Product({
+      title: title,
+      price: price,
+      description: description,
+      imageUrl: imageUrl,
+      userId: req.user,
     });
+    await product.save();
+    console.log("Created Product");
+    res.redirect("/admin/products");
+  } catch (error) {
+    next(error);
   }
-  const imageUrl = image.path;
-  const product = new Product({
-    title: title,
-    price: price,
-    description: description,
-    imageUrl: imageUrl,
-    userId: req.user,
-  });
-  console.log(title, price, description);
-
-  product
-    .save()
-    .then((result) => {
-      console.log("Created Product");
-      res.redirect("/admin/products");
-    })
-    .catch((err) => {
-      next(new Error("errror"));
-    });
 };
 
 exports.getEditProduct = (req, res, next) => {
