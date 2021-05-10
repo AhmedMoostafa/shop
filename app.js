@@ -31,6 +31,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: store,
+    cookie: { maxAge: 60 * 60 * 1000 }, //1 houre
     name: "SID",
   })
 );
