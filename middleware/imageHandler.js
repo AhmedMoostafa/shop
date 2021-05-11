@@ -1,7 +1,12 @@
 const multer = require("multer");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    const dir = "./images";
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
     cb(null, "images");
   },
   filename: (req, file, cb) => {
@@ -17,6 +22,6 @@ fileFilter = (req, file, cb) => {
   }
   cb(undefined, true);
 };
-const prodImage = multer({ storage, fileFilter });
+const prodImage = multer({ storage, fileFilter }).single("image");
 
 module.exports = prodImage;

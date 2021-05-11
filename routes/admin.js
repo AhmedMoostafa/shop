@@ -17,7 +17,7 @@ router.get("/products", isAuth, adminController.getProducts);
 // /admin/add-product => POST
 router.post(
   "/add-product",
-  imageHandler.single("image"),
+  imageHandler,
   [
     body("title").isString().isLength({ min: 3 }).trim(),
     body("price").isFloat(),
@@ -31,7 +31,7 @@ router.get("/edit-product/:productId", isAuth, adminController.getEditProduct);
 
 router.post(
   "/edit-product",
-  imageHandler.single("image"),
+  imageHandler,
   [
     body("title").isString().isLength({ min: 3 }).trim(),
     body("price").isFloat(),
