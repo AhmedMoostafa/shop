@@ -173,9 +173,12 @@ exports.postReset = async (req, res, next) => {
   const email = req.body.email;
   const user = await User.findOne({ email });
   if (!user) {
-    return next(new Error("not found"));
+    return res.render("auth/reset", {
+      path: "/reset",
+      pageTitle: "reset",
+      errorMessage: "Invalid email",
+    });
   }
-
   user.resetToken = token;
   user.resetTokenExpiration = Date.now() + convert(60);
   await user.save();
