@@ -37,11 +37,7 @@ app.use(
 );
 app.use(
   flash()
-); /*  app.use((err, req, res, next) => {
-  console.log("kjhdkjjkmldmkl");
-  if (err.code !== "EBADCSRFTOKEN") return next(err);
-  res.redirect("/");
-});  */ //app.use(csrfPortection);
+);
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = process.env.csrfToken;
